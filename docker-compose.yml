@@ -22,3 +22,7 @@ services:
       - IPC_LOCK
     volumes:
       - ./esdata:/usr/share/elasticsearch/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
