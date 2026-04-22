@@ -1,16 +1,20 @@
 version: '3.9'
 
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+  opensearch:
+    image: opensearchproject/opensearch:2.19.0
     restart: always
-    container_name: elasticsearch
+    container_name: opensearch
     ports:
       - ${ELASTICSEARCH_API_PORT}:9200
       - ${ELASTICSEARCH_CLUSTER_PORT}:9300
     environment:
+      - cluster.name=local-opensearch-cluster
+      - node.name=opensearch-node1
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=true
     ulimits:
       memlock:
         soft: -1
@@ -21,7 +25,7 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - ./esdata:/usr/share/elasticsearch/data
+      - ./opensearch-data:/usr/share/opensearch/data
     logging:
       driver: "json-file"
       options:
