@@ -28,6 +28,7 @@ services:
       - IPC_LOCK
     volumes:
       - ./opensearch-data:/usr/share/opensearch/data
+      - ./opensearch-analyzers:/usr/share/opensearch/config/analyzers
     logging:
       driver: "json-file"
       options:
